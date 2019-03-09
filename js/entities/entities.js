@@ -103,12 +103,12 @@ game.MainPlayer = game.Player.extend({
      * constructor
      */
     init : function (x, y, settings) {
-        const character = window.character || Object.keys(game.Player.characters)[Math.floor(Math.random() * Object.keys(game.Player.characters).length)];
-        let settingsOverrided = Object.assign({}, settings, {
-            character: character,
-        });
+        // const character = character || Object.keys(game.Player.characters)[Math.floor(Math.random() * Object.keys(game.Player.characters).length)];
+        // let settingsOverrided = Object.assign({}, settings, {
+        //     character: character,
+        // });
       // call the constructor
-      this._super(game.Player, 'init', [x, y, settingsOverrided]);
+      this._super(game.Player, 'init', [x, y, settings]);
 
       // set the display to follow our position on both axis
       me.game.viewport.follow(this.pos, me.game.viewport.AXIS.BOTH, 0.4);
