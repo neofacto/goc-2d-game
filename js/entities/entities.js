@@ -8,12 +8,12 @@ game.Player = me.Entity.extend({
     init : function (x, y, settings) {
       // call the constructor
     //   this._super(me.Entity, 'init', [x, y, settings]);
-    if (settings.character) {
-        this.character = settings.character;
-        settings.image = game.Player.characters[settings.character];
-        settings.width = 64;
-        settings.height = 64;
-    }
+
+    this.character = settings.character || Object.keys(game.Player.characters)[Math.floor(Math.random() * Object.keys(game.Player.characters).length)];
+
+    settings.image = game.Player.characters[this.character];
+    settings.width = 64;
+    settings.height = 64;
 
     this._super(me.Entity, 'init', [x, y, settings]);
   
@@ -103,10 +103,8 @@ game.MainPlayer = game.Player.extend({
      * constructor
      */
     init : function (x, y, settings) {
-        // const character = character || Object.keys(game.Player.characters)[Math.floor(Math.random() * Object.keys(game.Player.characters).length)];
-        // let settingsOverrided = Object.assign({}, settings, {
-        //     character: character,
-        // });
+
+        
       // call the constructor
       this._super(game.Player, 'init', [x, y, settings]);
 
