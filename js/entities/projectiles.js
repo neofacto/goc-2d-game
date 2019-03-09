@@ -26,8 +26,7 @@ game.Projectile = me.Entity.extend({
       } else {
         this.body.vel.x += this.body.accel.x * time / 1000;
       }
-      
-      if (this.pos.x + this.width <= 0) {
+      if (this.pos.x + this.width <= 0 && this.pos.x + this.width >= me.levelDirector.getCurrentLevel().width) {
           me.game.world.removeChild(this);
       }
 

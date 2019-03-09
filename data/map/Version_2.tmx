@@ -10,7 +10,7 @@
   </data>
  </layer>
  <objectgroup id="5" name="collisions">
-  <object id="10" x="-0.0359385" y="1035.07" width="961.881" height="41.4533"/>
+  <object id="10" x="-1.03156" y="1035.46" width="961.881" height="41.4533" rotation="-359.926"/>
   <object id="12" x="1472.61" y="1035.37" width="503.562" height="41.7588"/>
   <object id="13" x="1471.38" y="494.964" width="503.562" height="41.7588"/>
   <object id="14" x="0.513688" y="496.345" width="961.881" height="41.4533"/>
@@ -18,9 +18,9 @@
  <objectgroup id="4" name="mainPlayer">
   <object id="8" name="mainPlayer" x="85.3658" y="996.146" width="32" height="32">
    <properties>
-    <property name="frameheight" value="32"/>
-    <property name="framewidth" value="32"/>
-    <property name="image" value="gripe_run_right"/>
+    <property name="frameheight" value="64"/>
+    <property name="framewidth" value="64"/>
+    <property name="image" value="Persona1"/>
    </properties>
   </object>
  </objectgroup>

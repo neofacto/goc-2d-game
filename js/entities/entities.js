@@ -8,15 +8,17 @@ game.Player = me.Entity.extend({
     init : function (x, y, settings) {
       // call the constructor
     //   this._super(me.Entity, 'init', [x, y, settings]);
-      this._super(me.Entity, 'init', [x, y, settings || {
-        image : "gripe_run_right",
-        width : 32,
-        height : 32
-    }]);
+    if (settings.character) {
+        this.character = settings.character;
+        settings.image = game.Player.characters[settings.character];
+        settings.width = 64;
+        settings.height = 64;
+    }
 
+    this._super(me.Entity, 'init', [x, y, settings]);
   
       // max walking & jumping speed
-      this.body.setMaxVelocity(3, 15);
+      this.body.setMaxVelocity(4, 15);
       this.body.setFriction(0.4, 0);
   
       // ensure the player is updated even when outside of the viewport
@@ -25,7 +27,7 @@ game.Player = me.Entity.extend({
       this.alive = true;
   
       // define a basic walking animation (using all frames)
-      this.renderable.addAnimation("walk",  [0, 1, 2, 3, 4, 5, 6, 7]);
+      this.renderable.addAnimation("walk",  [1, 2, 3, 4, 5, 6]);
   
       // define a standing animation (using the first frame)
       this.renderable.addAnimation("stand",  [0]);
@@ -37,6 +39,11 @@ game.Player = me.Entity.extend({
      * update the entity
      */
     update : function (dt) {
+        if (this.pos.y >= me.levelDirector.getCurrentLevel().height) {
+            me.game.world.removeChild(this);
+            // send the state
+        }
+
         // apply physics to the body (this moves the entity)
         this.body.update(dt);
   
@@ -53,6 +60,14 @@ game.Player = me.Entity.extend({
         const projectile = me.pool.pull("projectile", posX, posY, {
             flipped: this.renderable._flip.x
         });
+        projectile.attack = {
+            player: {
+                name: userName,
+                character: this.character,
+                team: 'team1',
+            },
+            isUltimate: false,
+        };
         me.game.world.addChild(projectile);
     },
   
@@ -62,15 +77,23 @@ game.Player = me.Entity.extend({
      */
     onCollision : function (response, other) {
       // Make all other objects solid
-      if (response.b.body.collisionType !== me.collision.types.PROJECTILE_OBJECT
-        && response.b.body.collisionType !== me.collision.types.WORLD_SHAPE) {
-            return false;
+      if (response.b.body.collisionType === me.collision.types.PROJECTILE_OBJECT && other.attack.player.name !== userName) {
+        // send that the player has been touched
+        me.game.world.removeChild(other);
       }
-      return true;
+      if (response.b.body.collisionType === me.collision.types.WORLD_SHAPE) {
+        return true;
+      }
+      return false;
     },
   });
 
-game.Player.characters = ['Prince', 'Libra', 'Deva', 'Astra'];
+game.Player.characters = {
+    'Prince': 'Personna1',
+    'Libra': 'Personna1',
+    'Deva': 'Personna1',
+    'Astra': 'Personna1'
+};
 
 /**
  * MainPlayer Entity
@@ -80,10 +103,12 @@ game.MainPlayer = game.Player.extend({
      * constructor
      */
     init : function (x, y, settings) {
+        const character = Object.keys(game.Player.characters)[Math.floor(Math.random() * Object.keys(game.Player.characters).length)];
+        let settingsOverrided = Object.assign({}, settings, {
+            character: character,
+        });
       // call the constructor
-      this._super(game.Player, 'init', [x, y, settings]);
-
-      this.character = game.Player.characters[Math.floor(Math.random()*game.Player.characters.length)];
+      this._super(game.Player, 'init', [x, y, settingsOverrided]);
 
       // set the display to follow our position on both axis
       me.game.viewport.follow(this.pos, me.game.viewport.AXIS.BOTH, 0.4);
@@ -92,6 +117,7 @@ game.MainPlayer = game.Player.extend({
      * update the entity
      */
     update : function (dt) {
+        if (!this.alive) false;
         if (me.input.isKeyPressed('left') || leftJoystick.left()) {
             // flip the sprite on horizontal axis
             this.renderable.flipX(true);
@@ -136,18 +162,28 @@ game.MainPlayer = game.Player.extend({
         }
   
         // return true if we moved or if the renderable was updated
-        return (this._super(game.Player, 'update', [dt]) || this.body.vel.x !== 0 || this.body.vel.y !== 0);
+        return this._super(game.Player, 'update', [dt]);
+    },
+    onCollision : function (response, other) {
+        const result = this._super(game.Player, 'onCollision', [response, other]);
+        if (response.b.body.collisionType === me.collision.types.PROJECTILE_OBJECT && other.attack.player.name !== userName) {
+            this.sendDamaged(other.attack);
+            return false;
+        }
+        return true;
     },
     sendPosition: function() {
         const data = {
             player: {
                 name: userName,
                 character: this.character,
+                team: 'team1',
             },
             x: this.pos.x,
-            y: this.pos.y
+            y: this.pos.y,
+            flippedX: this.renderable._flip.x,
         };
-        console.log("sending", data)
+        console.log("sending position", data)
         socket.emit('positionEvent', data);
     },
     sendAttack: function() {
@@ -155,10 +191,23 @@ game.MainPlayer = game.Player.extend({
             player: {
                 name: userName,
                 character: this.character,
+                team: 'team1',
             },
             isUltimate: false,
         };
-        console.log("sending", data)
+        console.log("sending attack", data)
         socket.emit('attackEvent', data);
+    },
+    sendDamaged: function(attack) {
+        const data = {
+            player: {
+                name: userName,
+                character: this.character,
+                team: 'team1',
+            },
+            attack: attack,
+        };
+        console.log("sending damaged", data)
+        socket.emit('damagedEvent', data);
     },
   });
