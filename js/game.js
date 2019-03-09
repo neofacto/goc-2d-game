@@ -32,16 +32,17 @@ var game = {
         me.state.set(me.state.PLAY, new game.PlayScreen());
 
         // register our player entity in the object pool
-        me.pool.register("mainPlayer", game.PlayerEntity);
-        me.pool.register("ally", game.Ally);
+        me.pool.register("mainPlayer", game.MainPlayer);
+        me.pool.register("player", game.Player);
+        me.pool.register("projectile", game.Projectile);
 
         // enable the keyboard
         me.input.bindKey(me.input.KEY.LEFT,  "left");
         me.input.bindKey(me.input.KEY.RIGHT, "right");
         // map X, Up Arrow and Space for jump
-        me.input.bindKey(me.input.KEY.X,      "jump", true);
+        // me.input.bindKey(me.input.KEY.X,      "jump", true);
         me.input.bindKey(me.input.KEY.UP,     "jump", true);
-        me.input.bindKey(me.input.KEY.SPACE,  "jump", true);
+        me.input.bindKey(me.input.KEY.SPACE, "shoot", true);
 
         // start the game
         me.state.change(me.state.PLAY);
