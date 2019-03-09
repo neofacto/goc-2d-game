@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="right-down" width="21" height="12" tilewidth="90" tileheight="90" infinite="0" backgroundcolor="#e7f6ef" nextlayerid="4" nextobjectid="27">
+ <tileset firstgid="1" source="1.tsx"/>
+ <tileset firstgid="2" source="2.tsx"/>
+ <tileset firstgid="3" source="3.tsx"/>
+ <tileset firstgid="4" source="18.tsx"/>
+ <tileset firstgid="5" source="Crate.tsx"/>
+ <tileset firstgid="6" source="Bush-3.tsx"/>
+ <layer id="1" name="Tile Layer 1" width="21" height="12">
+  <data encoding="base64">
+   AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAgAAAAIAAAACAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABQAAAAUAAAAFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABgAAAAAAAAAAAAAAAQAAAAIAAAACAAAAAgAAAAIAAAACAAAAAgAAAAIAAAACAAAAAgAAAAIAAAACAAAAAgAAAAIAAAACAAAAAgAAAAIAAAACAAAAAgAAAAIAAAADAAAA
+  </data>
+ </layer>
+ <objectgroup id="2" name="collision">
+  <object id="1" x="-2.51319" y="987.434" width="1892" height="90"/>
+  <object id="13" x="178.437" y="630.812" width="180" height="90"/>
+  <object id="15" x="177.525" y="269.276" width="180" height="90"/>
+  <object id="16" x="448" y="448" width="90" height="90"/>
+  <object id="17" x="720" y="538.667" width="450" height="90"/>
+  <object id="18" x="1529.33" y="630.667" width="180" height="90"/>
+  <object id="19" x="1530" y="269.667" width="180" height="90"/>
+  <object id="20" x="899" y="809.667" width="90" height="90"/>
+  <object id="21" x="808" y="900" width="270" height="90"/>
+  <object id="22" x="1349.91" y="444.333" width="90" height="90"/>
+  <object id="24" x="-7.38614" y="-92.5248" width="1892" height="90"/>
+  <object id="25" x="1983.51" y="-558.149" width="1892" height="90" rotation="89.634"/>
+  <object id="26" x="-3.42574" y="-373.713" width="1892" height="90" rotation="89.634"/>
+ </objectgroup>
+ <objectgroup id="3" name="mainPlayer">
+  <object id="23" name="mainPlayer" x="104" y="939" width="32" height="32">
+   <properties>
+    <property name="frameheight" value="32"/>
+    <property name="framewidth" value="32"/>
+    <property name="image" value="gripe_run_right"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="right-down" width="25" height="25" tilewidth="32" tileheight="32" infinite="0" backgroundcolor="#5aff66" nextlayerid="10" nextobjectid="15">
+ <objectgroup id="2" name="mainPlayer">
+  <object id="1" name="mainPlayer" x="117.546" y="688.575" width="32" height="32">
+   <properties>
+    <property name="frameheight" value="32"/>
+    <property name="framewidth" value="32"/>
+    <property name="image" value="gripe_run_right"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="9" name="collision">
+  <object id="12" x="0" y="801" width="801" height="54"/>
+  <object id="14" x="-66" y="0.5" width="64" height="854"/>
+ </objectgroup>
+ <group id="8" name="collisions"/>
+</map>

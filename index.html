@@ -1,0 +1,134 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>GoC 2019</title>
+        <link rel="stylesheet" type="text/css" media="screen" href="index.css">
+        <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <link rel="apple-touch-icon" href="icons/touch-icon-iphone-60x60.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="icons/touch-icon-ipad-76x76.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="icons/touch-icon-iphone-retina-120x120.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="icons/touch-icon-ipad-retina-152x152.png">
+        <link rel="manifest" href="manifest.json">
+    </head>
+    <body>
+        <!-- Canvas placeholder -->
+        <div id="screen"></div>
+
+        <!-- es5/es6 shim for legacy browsers" -->
+        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.11/es5-shim.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.11/es5-sham.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/es6-shim/0.35.3/es6-shim.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/es6-shim/0.35.3/es6-sham.min.js"></script> -->
+
+        <!-- melonJS Library -->
+        <!-- build:js js/app.min.js -->
+        <script type="text/javascript" src="lib/melonjs.js"></script>
+
+        <!-- Plugin(s) -->
+        <script type="text/javascript" src="lib/plugins/debug/debugPanel.js"></script>
+
+        <!-- Game Scripts -->
+        <script type="text/javascript" src="js/game.js"></script>
+        <script type="text/javascript" src="build/js/resources.js"></script>
+
+        <script type="text/javascript" src="js/entities/entities.js"></script>
+        <script type="text/javascript" src="js/entities/HUD.js"></script>
+
+        <script type="text/javascript" src="js/screens/title.js"></script>
+        <script type="text/javascript" src="js/screens/play.js"></script>
+        <script type="text/javascript" src="js/virtualjoystick.js"></script>
+        <script type="text/javascript" src="js/socket.io/socket.io.js"></script>
+        <!-- /build -->
+
+        <!-- Bootstrap -->
+        <script type="text/javascript">
+            console.log("touchscreen is", VirtualJoystick.touchScreenAvailable() ? "available" : "not available");
+            var leftJoystick	= new VirtualJoystick({
+                container	: document.body,
+                strokeStyle	: 'blue',
+                limitStickTravel: true,
+                stickRadius	: 120
+            });
+            leftJoystick.addEventListener('touchStartValidation', function(event){
+                var touch	= event.changedTouches[0];
+                if( touch.pageX >= window.innerWidth/2 )	return false;
+                return true
+            });
+            leftJoystick.addEventListener('touchStart', function(event){
+                console.log('move', event)
+                // me.input.triggerKeyEvent(me.input.KEY.LEFT, true);
+            })
+            var rightJoystick	= new VirtualJoystick({
+                container	: document.body,
+                strokeStyle	: 'red',
+                limitStickTravel: true,
+                stickRadius	: 0,
+                // stationaryBase: true,
+                // baseX: 256,
+                // baseY: 256
+            });
+            rightJoystick.addEventListener('touchStartValidation', function(event){
+                var touch	= event.changedTouches[0];
+                if( touch.pageX < window.innerWidth/2 )	return false;
+                return true
+            });
+            rightJoystick.addEventListener('touchStart', function(){
+                console.log('fire')
+                me.input.triggerKeyEvent(me.input.KEY.SPACE, true);
+            })
+            rightJoystick.addEventListener('touchEnd', function(){
+                console.log('end fire')
+                me.input.triggerKeyEvent(me.input.KEY.SPACE, false);
+            })
+            me.device.onReady(function onReady() {
+                game.onload();
+            });
+        </script>
+
+        <script>
+            var userName = 'user' + Math.floor((Math.random()*1000)+1);
+            var playersList = [];
+            var socket =  io.connect('http://ns357120.ip-91-121-145.eu:9092');
+
+            socket.on('connect', function() {
+                console.log('connected')
+            });
+
+            socket.on('disconnect', function() {
+                console.log('disconnected')
+            });
+
+            socket.on('positionEvent', function(data) {
+                console.log("received", data) 
+                if (data.player.name !== userName) {
+                    const playerFound = playersList.find(player => player.player.name === data.player.name);
+                    if (playerFound) {
+                        
+                        // update player
+                        playerFound.x = data.x;
+                        playerFound.y = data.y;
+                        const ally = me.game.world.getChildByGUID(playerFound.GUID);
+                        console.log("update player", ally, data) 
+                        ally.pos.x = data.x;
+                        ally.pos.y = data.y;
+                        ally.update();
+                    } else {
+                        console.log("add player", data) 
+                        // create new player
+                        const newAlly = me.pool.pull("ally", data.x, data.y, {
+                            id: data.player.name
+                        })
+                        me.game.world.addChild(newAlly);
+                        data.GUID = newAlly.GUID;
+                        console.log(data);
+                        playersList.push(data);
+                    }
+                    me.game.world.updateChildBounds();
+                }
+            });
+        </script>
+    </body>
+</html>
