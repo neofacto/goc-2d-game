@@ -1,4 +1,10 @@
-melonJS boilerplate
+2D Game for the Game of Code 2019 Docler challenge.
+The challenge is :
+- make a game,
+- you have to choose 3 words from the Docler jar of secrets,
+- the words are : city - circle - prince.
+
+This repository comes in pair with https://github.com/neofacto/gameofcode2019.
 -------------------------------------------------------------------------------
 
 features :
