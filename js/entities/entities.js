@@ -90,9 +90,9 @@ game.Player = me.Entity.extend({
 
 game.Player.characters = {
     'Prince': 'Personna1',
-    'Libra': 'Personna1',
-    'Deva': 'Personna1',
-    'Astra': 'Personna1'
+    'Libra': 'Personna2',
+    'Deva': 'Personna3',
+    'Astra': 'Personna4'
 };
 
 /**
@@ -103,7 +103,7 @@ game.MainPlayer = game.Player.extend({
      * constructor
      */
     init : function (x, y, settings) {
-        const character = Object.keys(game.Player.characters)[Math.floor(Math.random() * Object.keys(game.Player.characters).length)];
+        const character = window.character || Object.keys(game.Player.characters)[Math.floor(Math.random() * Object.keys(game.Player.characters).length)];
         let settingsOverrided = Object.assign({}, settings, {
             character: character,
         });
